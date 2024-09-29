@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ product.name }}</title>
+
+        <link rel="stylesheet" href="{% static 'css/detail_style.css' %}">
+
+
+</head>
+<body>
+  <header>
+        <center>
+        <div class="overlay">
+            <h1 class="main_title">ECOMMERCE WEB CART</h1>
+        <div class="nav-links">
+            <a href="{% url 'ecommerce:home_page' %}">Home</a>
+            <a href="{% url 'ecommerce:cart_page' %}">Cart</a>
+        <form action="{% url 'ecommerce:searchresult' %}" method="get" role="search">
+                    {% csrf_token %}
+                    <input type="search" placeholder="Search" name="q" aria-label="Search">
+                    <button type="submit">Search</button>
+                </form>
+        </div>
+        </div>
+            </center>
+    </header>
+
+    <div class="product-div">
+        <div class="image-div">
+            <img src="{{ products.image.url }}" alt="{{ products.name }}" class="product-img">
+        </div>
+
+        <div class="details-div">
+            <h2>{{ products.name }}</h2>
+            <p class="price">${{ products.price }}</p>
+            <p><strong>Product Description:</strong></p>
+            <p>{{ products.description }}</p>
+            {% if products.stock <= 0 %}
+                <p class="out-of-stock"><strong>Out of stock</strong></p>
+            {% else %}
+                <a class="add-to-cart" href="{% url 'ecommerce:add_to_cart' products.id %}">Add to Cart</a>
+            {% endif %}
+        </div>
+    </div>
+
+</body>
+</html>

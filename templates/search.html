@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ product.name }}</title>
+
+    <link rel="stylesheet" href="{% static 'css/search_style.css' %}">
+
+
+</head>
+<body>
+  <header>
+        <center>
+        <div class="overlay">
+            <h1 class="main_title">ECOMMERCE WEB CART</h1>
+        <div class="nav-links">
+            <a href="{% url 'ecommerce:home_page' %}">Home</a>
+            <a href="{% url 'ecommerce:cart_page' %}">Cart</a>
+       <form action="{% url 'ecommerce:searchresult' %}" method="get" role="search">
+                    {% csrf_token %}
+                    <input type="search" placeholder="Search" name="q" aria-label="Search">
+                    <button type="submit">Search</button>
+                </form>
+        </div>
+        </div>
+            </center>
+    </header>
+
+<div>
+    <p class="text-center my_search_text">You have searched for :<b>"{{query}}"</b></p>
+</div>
+<ul class="product-list">
+     {% for product in results %}
+    <li>
+        <a href="{% url 'ecommerce:product_detail_page' product.id %}">
+            <img class="" src="{{product.image.url}}"alt="{{product.name}}">
+            <p class="product-name">{{product.name}}</p>
+            <p class="product-price">{{product.price}}</p>
+
+        </a>
+        {% empty %}
+      <div class="">
+          <p class="">0 results found</p>
+      </div>
+    {% endfor %}
+    </li>
+</ul>
+
+
+  </div>
+
+</body>
+</html>

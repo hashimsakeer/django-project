@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ category.name }}</title>
+    <link rel="stylesheet" href="{% static 'css/products_style.css' %}">
+</head>
+<body>
+  <header>
+        <center>
+        <div class="overlay">
+            <h1 class="main_title">ECOMMERCE WEB CART</h1>
+        <div class="nav-links">
+            <a href="{% url 'ecommerce:home_page' %}">Home</a>
+            <a href="{% url 'ecommerce:cart_page' %}">Cart</a>
+        <form action="{% url 'ecommerce:searchresult' %}" method="get" role="search">
+                    {% csrf_token %}
+                    <input type="search" placeholder="Search" name="q" aria-label="Search">
+                    <button type="submit">Search</button>
+                </form>
+        </div>
+        </div>
+            </center>
+    </header>
+<h1>{{ category.name }}</h1>
+
+<ul class="product-list">
+    {% for pro in products %}
+    <li>
+         <a href="{% url 'ecommerce:product_detail_page' pro.id %}">
+             <img src="{{ pro.image.url }}" alt="{{ pro.name }}">
+            <p class="product-name">{{ pro.name }}</p>
+            <p class="product-price">${{ pro.price }}</p>
+        </a>
+    </li>
+    {% empty %}
+    <li>No products available.</li>
+    {% endfor %}
+</ul>
+
+</body>
+
+</html>

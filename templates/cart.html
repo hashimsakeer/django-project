@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecommerce Web Cart</title>
+    <link rel="stylesheet" href="{% static 'css/cart_style.css' %}">
+</head>
+<body>
+    <header>
+        <center>
+        <div class="overlay">
+            <h1 class="main_title">ECOMMERCE WEB CART</h1>
+        <div class="nav-links">
+            <a href="{% url 'ecommerce:home_page' %}">Home</a>
+            <a href="">Cart</a>
+           <form action="{% url 'ecommerce:searchresult' %}" method="get" role="search">
+                    {% csrf_token %}
+                    <input type="search" placeholder="Search" name="q" aria-label="Search">
+                    <button type="submit">Search</button>
+                </form>
+
+        </div>
+        </div>
+            </center>
+    </header>
+<h1>Your Cart</h1>
+<ul class="cart-list">
+    {% for item in cart_items %}
+    <li>
+        <img src="{{ item.product.image.url }}" alt="{{ item.name }}">
+        <p>{{ item.product.name }} - {{ item.quantity }} x ${{ item.product.price }}</p>
+        <a href="{% url 'ecommerce:remove_from_cart' item.id %}">Remove</a>
+    </li>
+    {% empty %}
+    <h2>Your cart is empty.</h2>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'ecommerce:home_page' %}" class="continue-shopping">Make Payment</a>
+
+<a href="{% url 'ecommerce:home_page' %}" class="continue-shopping">Continue Shopping</a>
+
+</body>
+</html>
